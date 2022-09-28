@@ -1,20 +1,22 @@
 import random
 
 
-def ziehe():
+def ziehe(min, max, anz_zufall):
     arr = []
-    for i in range(1, 46, 1):
+    for i in range(min,max):                   #befüllen der Liste mit Werten von 1 bis 45
         arr.append(i)
-    for i in range(0, 6, 1):
+
+    #print(arr)
+    for i in range(anz_zufall):                    # ziehen der Zufallszahlen
         index = random.randrange(len(arr) - i)
         zufall = arr[index]
-        arr[len(arr) - 1 - i] = zufall
-        arr[index] = len(arr) - i
-    print(arr[39:45])
-    return arr
+        last_pos = len(arr) - 1 - i
+        arr[last_pos], arr[index] = arr[index], arr[last_pos]
+    print(arr)
+    print(arr[-anz_zufall:])                           # letzen 6 Werte ausgeben --> das sind die gezogenen Zahlen
+    return arr[-anz_zufall:]
 
 
-count = [0] * 45
 
 
 def stats(ziehung):
@@ -29,8 +31,10 @@ def stats(ziehung):
 
 def call(wieoft):
     for wieoft in range(0, wieoft, 1):
-        stats(ziehe())
+        stats(ziehe(45, 6))
 
 
 if __name__ == '__main__':
-    call(1000)
+  #  call(1000)
+  count = [0] * 45  # Array an dem pro position die Anzahl der Ziehungen pro Zahl gemappt wird
+  ziehe(50, 90, 6)

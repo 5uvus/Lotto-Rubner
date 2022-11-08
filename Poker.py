@@ -67,7 +67,6 @@ def sortby(x):
 def getCardInfo(card):
     # Method that returns a List which contains the color and value of a single card
     info = card.split(':')
-    # print(info)
     return info
 
 
@@ -95,16 +94,12 @@ def isRoyalFlush(drawnCards, howmany, cards_in_total):
     values = getCardValues(drawnCards)
     cards_per_color = int(cards_in_total / 4)
     if all(item == "yellow" for item in colors) and min(values) == cards_per_color - howmany + 2 and checkRow(values):
-        print("---------------------------------------------------------------------------------------")
         return True
     elif all(item == "red" for item in colors) and min(values) == cards_per_color - howmany + 2 and checkRow(values):
-        print("---------------------------------------------------------------------------------------")
         return True
     elif all(item == "green" for item in colors) and min(values) == cards_per_color - howmany + 2 and checkRow(values):
-        print("---------------------------------------------------------------------------------------")
         return True
     elif all(item == "black" for item in colors) and min(values) == cards_per_color - howmany + 2 and checkRow(values):
-        print("---------------------------------------------------------------------------------------")
         return True
     else:
         return False

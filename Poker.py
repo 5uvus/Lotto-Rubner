@@ -9,7 +9,8 @@ def print_cards(raw_cards, cards_in_total):
     new_cards = []
     cards_per_color = cards_in_total / 4
     for c in raw_cards:
-        if int(getCardInfo(c)[1]) == cards_per_color + 1 - 3:  # lowest card has value of 2 --> + 1
+        # lowest card has value of 2 --> + 1
+        if int(getCardInfo(c)[1]) == cards_per_color + 1 - 3:
             new_cards.append(getCardInfo(c)[0] + ": J")
         elif int(getCardInfo(c)[1]) == cards_per_color + 1 - 2:
             new_cards.append(getCardInfo(c)[0] + ": Q")
@@ -24,19 +25,24 @@ def print_cards(raw_cards, cards_in_total):
 
 
 def cards(cards_in_total):
-    # Method which creates a list that contains all possible cards in a poker card-deck
+    # Method which creates a list that contains all
+    # possible cards in a poker card-deck
     poker_cards = [None] * cards_in_total
     cards_per_color = cards_in_total / 4
-    colors = ["red", "black", "yellow", "green"]
+    colors = ["diamond", "heart", "spade", "clover"]
     run_colors = 0
     run_values = 2
     for i in range(0, cards_in_total):
-        combine = colors[run_colors - 1] + ":" + str(run_values)  # combine a color and a value to a new card
-        poker_cards[i] = combine  # assign the new card to the list
-        if i % cards_per_color == 0:  # if we reach the highest number of a color --> next color
+        # combine a color and a value to a new card
+        combine = colors[run_colors - 1] + ":" + str(run_values)
+        # assign the new card to the list
+        poker_cards[i] = combine
+        # if we reach the highest number of a color --> next color
+        if i % cards_per_color == 0:
             run_colors += 1
         run_values += 1
-        if run_values == cards_per_color + 2:  # lowest card has value of 2 --> + 2
+        if run_values == cards_per_color + 2:
+            # lowest card has value of 2 --> + 2
             run_values = 2
     return poker_cards
 
@@ -45,12 +51,16 @@ def draw(all_cards, howmany, cards_in_total):
     # Method which draws 'howmany' cards of the 'cards_in_total'
     poker_cards = all_cards
     for i in range(howmany):
-        index = random.randrange(len(poker_cards) - i)  # get the index of the random drawn card
+        # get the index of the random drawn card
+        index = random.randrange(len(poker_cards) - i)
         last_pos = len(poker_cards) - 1 - i
-        poker_cards[last_pos], poker_cards[index] = poker_cards[index], poker_cards[last_pos]  # switch cards
+        poker_cards[last_pos], poker_cards[index] \
+            = poker_cards[index], poker_cards[last_pos]  # switch cards
 
-    print_cards(sorted(poker_cards[-howmany:], key=sortby), cards_in_total)  # prints the randomly drawn cards(sorted
-    return sorted(poker_cards[-howmany:], key=sortby)  # returns the randomly drawn cards (sorted)
+    # prints the randomly drawn cards(sorted
+    print_cards(sorted(poker_cards[-howmany:], key=sortby), cards_in_total)
+    # returns the randomly drawn cards (sorted)
+    return sorted(poker_cards[-howmany:], key=sortby)
 
 
 def sortby(x):
@@ -62,7 +72,8 @@ def sortby(x):
 # shorturl.at/JMOW7
 
 def getCardInfo(card):
-    # Method that returns a List which contains the color and value of a single card
+    # Method that returns a List which contains the color and value
+    # of a single card
     info = card.split(':')
     return info
 
@@ -90,13 +101,17 @@ def isRoyalFlush(drawnCards, howmany, cards_in_total):
     colors = getCardColors(drawnCards)
     values = getCardValues(drawnCards)
     cards_per_color = int(cards_in_total / 4)
-    if all(item == "yellow" for item in colors) and min(values) == cards_per_color - howmany + 2 and checkRow(values):
+    if all(item == "yellow" for item in colors) \
+            and min(values) == cards_per_color - howmany + 2 and checkRow(values):
         return True
-    elif all(item == "red" for item in colors) and min(values) == cards_per_color - howmany + 2 and checkRow(values):
+    elif all(item == "red" for item in colors) \
+            and min(values) == cards_per_color - howmany + 2 and checkRow(values):
         return True
-    elif all(item == "green" for item in colors) and min(values) == cards_per_color - howmany + 2 and checkRow(values):
+    elif all(item == "green" for item in colors) \
+            and min(values) == cards_per_color - howmany + 2 and checkRow(values):
         return True
-    elif all(item == "black" for item in colors) and min(values) == cards_per_color - howmany + 2 and checkRow(values):
+    elif all(item == "black" for item in colors) \
+            and min(values) == cards_per_color - howmany + 2 and checkRow(values):
         return True
     else:
         return False
@@ -106,19 +121,20 @@ def isStraightFlush(drawnCards):
     # Method that checks if the drawn cards consist of a Straight Flush
     colors = getCardColors(drawnCards)
     values = getCardValues(drawnCards)
-    if all(item == "yellow" for item in colors) and checkRow(values):
+    if all(item == "diamond" for item in colors) and checkRow(values):
         return True
-    if all(item == "red" for item in colors) and checkRow(values):
+    if all(item == "heart" for item in colors) and checkRow(values):
         return True
-    if all(item == "green" for item in colors) and checkRow(values):
+    if all(item == "spade" for item in colors) and checkRow(values):
         return True
-    if all(item == "black" for item in colors) and checkRow(values):
+    if all(item == "clover" for item in colors) and checkRow(values):
         return True
     return False
 
 
 def checkRow(values):
-    return sorted(values) == list(range(min(values), max(values) + 1))  # Überprüfen ob Werte in Reihe sind
+    # Überprüfen ob Werte in Reihe sind
+    return sorted(values) == list(range(min(values), max(values) + 1))
 
 
 def isOfAKind(howManyOfKind, howOften, drawnCards):
@@ -151,10 +167,10 @@ def isFullHouse(drawnCards):
 def isFlush(drawnCards):
     # Method that checks if the drawn cards consist of a Flush
     colors = getCardColors(drawnCards)
-    if all(item == "yellow" for item in colors) or \
-            all(item == "red" for item in colors) or \
-            all(item == "black" for item in colors) or \
-            all(item == "yellow" for item in colors):
+    if all(item == "diamong" for item in colors) or \
+            all(item == "heart" for item in colors) or \
+            all(item == "spade" for item in colors) or \
+            all(item == "clover" for item in colors):
         return True
     else:
         return False
@@ -189,11 +205,13 @@ def isHighestCard(drawnCards):
 
 
 def stats(howOften, nr_cards, cards_in_total):
-    # Method that performs a certain number of draws and returns the probabilities of the combinations in a statistic
+    # Method that performs a certain number of draws and returns the probabilities
+    # of the combinations in a statistic
     if cards_in_total % 4 != 0:
         print("The number of cards must be a multiple of 4")
         sys.exit()
-    sum_highestCard = sum_OnePair = sum_TwoPair = sum_Triple = sum_FourOfAKind = sum_Flush = sum_StraightFlush = \
+    sum_highestCard = sum_OnePair = sum_TwoPair = sum_Triple = sum_FourOfAKind = \
+        sum_Flush = sum_StraightFlush = \
         sum_RoyalFlush = sum_FullHouse = sum_Straight = 0
     for x in range(howOften):
         drawn = draw(cards(cards_in_total), nr_cards, cards_in_total)
@@ -243,10 +261,11 @@ def stats(howOften, nr_cards, cards_in_total):
     print("Straight-Flush:            \t", str(round(prop_StraightFlush, 4)), " %")
     print("Royal-Flush:               \t", str(round(prop_RoyalFlush, 4)), " %")
 
-    x = ["Highest-Card", "One-Pair", "Two-Pair", "Triple", "Straight", "Flush", "Full-House", "Four-Of-A-Kind",
-         "Straight-Flush", "Royal-Flush"]
-    y = [round(prop_highestCard, 4), round(prop_OnePair, 4), round(prop_TwoPair, 4), round(prop_Triple, 4),
-         round(prop_Straight, 4), round(prop_Flush, 4), round(prop_FullHouse, 4), round(prop_FourOfAKind, 4),
+    x = ["Highest-Card", "One-Pair", "Two-Pair", "Triple", "Straight", "Flush",
+         "Full-House", "Four-Of-A-Kind", "Straight-Flush", "Royal-Flush"]
+    y = [round(prop_highestCard, 4), round(prop_OnePair, 4), round(prop_TwoPair, 4),
+         round(prop_Triple, 4), round(prop_Straight, 4), round(prop_Flush, 4),
+         round(prop_FullHouse, 4), round(prop_FourOfAKind, 4),
          round(prop_StraightFlush, 4), round(prop_RoyalFlush, 4)]
     plt.bar(x, y, align="center")
     plt.title("Poker-Combinations")

@@ -9,9 +9,9 @@ def print_cards(raw_cards, cards_in_total):
     new_cards = []
     cards_per_color = cards_in_total / 4
     for c in raw_cards:
-        if int(getCardInfo(c)[1]) == cards_per_color + 1 - 3 :          #lowest card has value of 2 --> + 1
+        if int(getCardInfo(c)[1]) == cards_per_color + 1 - 3:  # lowest card has value of 2 --> + 1
             new_cards.append(getCardInfo(c)[0] + ": J")
-        elif int(getCardInfo(c)[1]) == cards_per_color + 1 - 2 :
+        elif int(getCardInfo(c)[1]) == cards_per_color + 1 - 2:
             new_cards.append(getCardInfo(c)[0] + ": Q")
         elif int(getCardInfo(c)[1]) == cards_per_color + 1 - 1:
             new_cards.append(getCardInfo(c)[0] + ": K")
@@ -31,12 +31,12 @@ def cards(cards_in_total):
     run_colors = 0
     run_values = 2
     for i in range(0, cards_in_total):
-        combine = colors[run_colors - 1] + ":" + str(run_values)        # combine a color and a value to a new card
-        poker_cards[i] = combine                                        # assign the new card to the list
-        if i % cards_per_color == 0:                         # if we reach the highest number of a color --> next color
+        combine = colors[run_colors - 1] + ":" + str(run_values)  # combine a color and a value to a new card
+        poker_cards[i] = combine  # assign the new card to the list
+        if i % cards_per_color == 0:  # if we reach the highest number of a color --> next color
             run_colors += 1
         run_values += 1
-        if run_values == cards_per_color + 2:                           # lowest card has value of 2 --> + 2
+        if run_values == cards_per_color + 2:  # lowest card has value of 2 --> + 2
             run_values = 2
     return poker_cards
 
@@ -45,20 +45,17 @@ def draw(all_cards, howmany, cards_in_total):
     # Method which draws 'howmany' cards of the 'cards_in_total'
     poker_cards = all_cards
     for i in range(howmany):
-        index = random.randrange(len(poker_cards) - i)                   # get the index of the random drawn card
+        index = random.randrange(len(poker_cards) - i)  # get the index of the random drawn card
         last_pos = len(poker_cards) - 1 - i
         poker_cards[last_pos], poker_cards[index] = poker_cards[index], poker_cards[last_pos]  # switch cards
 
     print_cards(sorted(poker_cards[-howmany:], key=sortby), cards_in_total)  # prints the randomly drawn cards(sorted
-    return sorted(poker_cards[-howmany:], key=sortby)     # returns the randomly drawn cards (sorted)
+    return sorted(poker_cards[-howmany:], key=sortby)  # returns the randomly drawn cards (sorted)
 
 
 def sortby(x):
     # Method used as key to sort the drawn cards by value
-    try:
-        return int(x.split(':')[1])
-    except ValueError:
-        return float('inf')
+    return int(x.split(':')[1])
 
 
 # ----------------Poker-Combinations---------------------
@@ -199,7 +196,7 @@ def stats(howOften, nr_cards, cards_in_total):
     sum_highestCard = sum_OnePair = sum_TwoPair = sum_Triple = sum_FourOfAKind = sum_Flush = sum_StraightFlush = \
         sum_RoyalFlush = sum_FullHouse = sum_Straight = 0
     for x in range(howOften):
-        drawn = draw(cards(cards_in_total), nr_cards, cards_in_total )
+        drawn = draw(cards(cards_in_total), nr_cards, cards_in_total)
         if isRoyalFlush(drawn, nr_cards, cards_in_total):
             sum_RoyalFlush += 1
         elif isStraightFlush(drawn):
@@ -245,9 +242,6 @@ def stats(howOften, nr_cards, cards_in_total):
     print("Four-Of-A-Kind:            \t", str(round(prop_FourOfAKind, 4)), " %")
     print("Straight-Flush:            \t", str(round(prop_StraightFlush, 4)), " %")
     print("Royal-Flush:               \t", str(round(prop_RoyalFlush, 4)), " %")
-
-
-
 
     x = ["Highest-Card", "One-Pair", "Two-Pair", "Triple", "Straight", "Flush", "Full-House", "Four-Of-A-Kind",
          "Straight-Flush", "Royal-Flush"]

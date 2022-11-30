@@ -58,7 +58,7 @@ def draw(all_cards, howmany, cards_in_total):
             = poker_cards[index], poker_cards[last_pos]  # switch cards
 
     # prints the randomly drawn cards(sorted
-    print_cards(sorted(poker_cards[-howmany:], key=sortby), cards_in_total)
+    #print_cards(sorted(poker_cards[-howmany:], key=sortby), cards_in_total)
     # returns the randomly drawn cards (sorted)
     return sorted(poker_cards[-howmany:], key=sortby)
 
@@ -167,7 +167,7 @@ def isFullHouse(drawnCards):
 def isFlush(drawnCards):
     # Method that checks if the drawn cards consist of a Flush
     colors = getCardColors(drawnCards)
-    if all(item == "diamong" for item in colors) or \
+    if all(item == "diamond" for item in colors) or \
             all(item == "heart" for item in colors) or \
             all(item == "spade" for item in colors) or \
             all(item == "clover" for item in colors):
@@ -272,6 +272,7 @@ def stats(howOften, nr_cards, cards_in_total):
     plt.xlabel("Combination")
     plt.ylabel("Probability in %")
     plt.xticks(rotation=90)
+    plt.tight_layout()
     plt.show()
 
 

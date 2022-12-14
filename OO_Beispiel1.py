@@ -1,5 +1,6 @@
+import sys
 from enum import Enum
-
+from matplotlib import pyplot as plt
 
 class Gender(Enum):
     MALE = 1
@@ -17,7 +18,7 @@ class Department:
         self.persons = []
 
     def addGroupleader(self, leader):
-        self.persons.remove(leader)
+       # self.persons.remove(leader)
         leader.role = Role.GROUPLEADER
         self.persons.append(leader)
 
@@ -107,39 +108,113 @@ class Company:
                 else:
                     females += 1
 
-        return "Males: " + str(round(males / self.countEmployees() * 100, 2)) + "% Females: " + str(round(
-            females / self.countEmployees() * 100, 2)) + "% "
+        label = ["Male", "Female"]
+
+        if self.countEmployees() != 0:
+            values = [round(males / self.countEmployees() * 100, 2), round(
+                females / self.countEmployees() * 100, 2)]
+            plt.pie(values, labels = label, autopct='%1.2f%%')
+            plt.title("Male/Female ")
+            plt.tight_layout()
+            plt.show()
+
+            return "Males: " + str(round(males / self.countEmployees() * 100, 2)) + "% Females: " + str(round(
+                females / self.countEmployees() * 100, 2)) + "% "
+        else:
+            return "Keine Mitarbeiter vorhanden!"
 
 
 if __name__ == '__main__':
-    p1 = Person("Personi", "Kroni", 25, Gender.MALE)
-    p2 = Person("Persi", "Chersi", 30, Gender.FEMALE)
-    p3 = Person("Perso", "Kerso", 45, Gender.MALE)
+    emptyDept = Department("placeholder")
+    deps = [emptyDept]
+    running = True
+    while running:
+        inp = input("What do you want to Add?/ Employee / Groupleader")
+        fName = input("Please enter firstname...")
+        lName = input ("Please enter lastname...")
+        age = input("Please type in age...")
+        gender = input("Please type in gender (male/female)")
+        if gender == "male":
+            gender = Gender.MALE
+        else:
+            gender = Gender.FEMALE
+        p = Person(fName, lName, age, gender)
+        if inp =="Employee":
+            id = input ("Please enter Employee-ID...")
+            dept = input("Please enter Department...")
+            e = Employee(p, id, dept)
+            if any(ce.department_name == dept for ce in deps):
+                print("--Added to existing department--")
+                d.addEmployee(e)
+            else:
+                print("--New Department created--")
+                dept = Department(dept)
+                dept.addEmployee(e)
+                deps.append(dept)
+            inp = input("Wanna get Department infos? (i)")
+            c = Company(deps)
+            if inp == "i":
+                for d in deps:
+                    print(d)
+                c.MaleFemaleStats()
 
-    e1 = Employee(p1, 1, "IT")
-    e2 = Employee(p2, 2, "HR")
-    e3 = Employee(p3, 3, "FI")
+            else:
+                print("Bye!")
+                running = False
 
-    g1 = Groupleader(e1, "Planning Group")
-    print(g1.role)
+        elif inp == "Groupleader":
+            id = input("Please enter Employee-ID...")
+            dept = input("Please enter Department...")
+            group = input("Please enter group...")
+            g = Groupleader(Employee(p, id, dept), group)
+            if any(ce.department_name == dept for ce in deps):
+                print("--Added to existing department--")
+                d.addGroupleader(g)
+            else:
+                print("--New Department created--")
+                dept = Department(dept)
+                dept.addGroupleader(g)
+                deps.append(dept)
+            inp = input ("Wanna get Department infos? (i)")
+            c = Company(deps)
+            if inp =="i":
+                for d in deps:
+                    print(d)
+                c.MaleFemaleStats()
 
-    d1 = Department("Sector A")
-    d2 = Department("Sector B")
+            else:
+                print("Bye!")
+                running = False
 
-    d1.addEmployee(e1)
-    d1.addEmployee(e2)
-    d1.addGroupleader(e1)
-    d2.addEmployee(e3)
 
-    deps = [d1, d2]
+    #p1 = Person("Personi", "Kroni", 25, Gender.MALE)
+    #p2 = Person("Persi", "Chersi", 30, Gender.FEMALE)
+    #p3 = Person("Perso", "Kerso", 45, Gender.MALE)
 
-    c = Company(deps)
+    #e1 = Employee(p1, 1, "IT")
+    #e2 = Employee(p2, 2, "HR")
+    #e3 = Employee(p3, 3, "FI")
 
-    print("Number of employees: ", c.countEmployees())
-    print("Number of groupleaders: ", c.countGroupleaders())
-    print("Number of departments: ", c.countDepartments())
-    print("Biggest Department:  ")
-    print("Statistics: ")
-    print(c.MaleFemaleStats())
+    #g1 = Groupleader(e1, "Planning Group")
+    #print(g1.role)
 
-    print(d1)
+    #d1 = Department("Sector A")
+    #d2 = Department("Sector B")
+
+    #d1.addEmployee(e1)
+    #d1.addEmployee(e2)
+    #d1.addGroupleader(e1)
+    #d2.addEmployee(e3)
+
+    #deps = [d1, d2]
+
+    #c = Company(deps)
+
+    #print("Number of employees: ", c.countEmployees())
+    #print("Number of groupleaders: ", c.countGroupleaders())
+    #print("Number of departments: ", c.countDepartments())
+    #print("Biggest Department:  ")
+    #print("Statistics: ")
+    #print(c.MaleFemaleStats())
+
+    #print(d1)

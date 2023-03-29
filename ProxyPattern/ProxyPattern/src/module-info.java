@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author fabst
+ *
+ */
+module ProxyPattern {
+}
